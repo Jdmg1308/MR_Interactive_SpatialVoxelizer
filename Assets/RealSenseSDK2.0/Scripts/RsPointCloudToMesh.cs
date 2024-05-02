@@ -21,10 +21,9 @@ using System.Net.NetworkInformation;
 public class RsPointCloudToMesh : MonoBehaviour
 {
     
-    private const float voxelSize = 0.05f;
-    private const int limit = 10;
+    private const float voxelSize = 0.08f;
     // voxel size
-    private const int MIN_POINTS_FOR_SHAPE = (int)(100); // Adjust as needed
+    private const int MIN_POINTS_FOR_SHAPE = (int)(500); // Adjust as needed
     public Material hullMaterial;
     private Mesh mesh;
     private Texture2D uvmap;
@@ -213,22 +212,22 @@ public class RsPointCloudToMesh : MonoBehaviour
                         mesh.vertices = vertices;
                         mesh.UploadMeshData(false);
 
-                        Stopwatch sw = Stopwatch.StartNew();
+                        // Stopwatch sw = Stopwatch.StartNew();
                         Voxelate(n);
                         n++;
-                        sw.Stop();
-                        // Get the elapsed time
-                        TimeSpan elapsedTime = sw.Elapsed;
-                        // Print the time elapsed
-                        UnityEngine.Debug.Log("Time elapsed: " + elapsedTime.TotalMilliseconds);
+                        // sw.Stop();
+                        // // Get the elapsed time
+                        // TimeSpan elapsedTime = sw.Elapsed;
+                        // // Print the time elapsed
+                        // UnityEngine.Debug.Log("Time elapsed: " + elapsedTime.TotalMilliseconds);
 
-                        totalSum += elapsedTime.TotalMilliseconds;
-                        totalTimes++;
+                        // totalSum += elapsedTime.TotalMilliseconds;
+                        // totalTimes++;
 
-                        minSum = minSum < elapsedTime.TotalMilliseconds ? minSum : elapsedTime.TotalMilliseconds;
-                        maxSum = maxSum > elapsedTime.TotalMilliseconds ? maxSum : elapsedTime.TotalMilliseconds;
+                        // minSum = minSum < elapsedTime.TotalMilliseconds ? minSum : elapsedTime.TotalMilliseconds;
+                        // maxSum = maxSum > elapsedTime.TotalMilliseconds ? maxSum : elapsedTime.TotalMilliseconds;
 
-                        UnityEngine.Debug.Log("Average Time elapsed: " + totalSum/totalTimes + " min Time elapsed: " + minSum + " max Time elapsed: " + maxSum);
+                        // UnityEngine.Debug.Log("Average Time elapsed: " + totalSum/totalTimes + " min Time elapsed: " + minSum + " max Time elapsed: " + maxSum);
                         
                     }
                 }
@@ -237,24 +236,24 @@ public class RsPointCloudToMesh : MonoBehaviour
 
     private void Voxelate(int value)
     {
-
         // Iterate over all points and count points in each voxel
-        if (value % 3 == 0) {
-            Quaternion desiredRotation = Quaternion.LookRotation(camera.transform.forward, camera.transform.up);
-            Vector3 desiredPosition = camera.transform.position;
-            foreach (var point in vertices)
-            {
-                float distance = Vector3.Distance(point, Vector3.zero);
-                if (distance > 0.5 && distance < 3) {
-                    // Rotate the vector
-                    Vector3 finalVector = (desiredRotation * point) + desiredPosition;
-            
-                    Vector3Int voxelPosition = new Vector3Int(
-                        Mathf.FloorToInt(finalVector.x / voxelSize),
-                        Mathf.FloorToInt(finalVector.y / voxelSize),
-                        Mathf.FloorToInt(finalVector.z / voxelSize)
-                    );
+        // if (0 == 0) {
+        Quaternion desiredRotation = Quaternion.LookRotation(camera.transform.forward, camera.transform.up);
+        Vector3 desiredPosition = camera.transform.position;
+        foreach (var point in vertices)
+        {
+            Vector3 p = new Vector3(point.x - (voxelSize), (point.y * -1f) - (voxelSize), point.z);
+            float distance = Vector3.Distance(p, Vector3.zero);
+            if (distance > 0.7 && distance < 3.3) {
+                // Rotate the vector
+                Vector3 finalVector = (desiredRotation * p) + desiredPosition;
+                Vector3Int voxelPosition = new Vector3Int(
+                    Mathf.FloorToInt(finalVector.x / voxelSize),
+                    Mathf.FloorToInt(finalVector.y / voxelSize),
+                    Mathf.FloorToInt(finalVector.z / voxelSize)
+                );
 
+                if (!(finalVector.y < voxelSize && finalVector.y > -voxelSize)) { // align with floor
                     if (!voxelCounts.ContainsKey(voxelPosition))
                     {
                         voxelCounts[voxelPosition] = 1;
@@ -266,15 +265,14 @@ public class RsPointCloudToMesh : MonoBehaviour
                 }
             }
         }
-
+        // }
         // Iterate over voxel counts and create/delete boxes where necessary
         foreach (var vox_pos_key in new List<Vector3Int>(voxelCounts.Keys))
         {
             int pointCount = voxelCounts[vox_pos_key];
-
-            if (pointCount >= MIN_POINTS_FOR_SHAPE)
+            if (pointCount >= MIN_POINTS_FOR_SHAPE / (vox_pos_key - Vector3Int.zero).magnitude)
             {
-                if (!voxelRef.ContainsKey(vox_pos_key)) { //&& voxelRef.Values.Count < limit
+                if (!voxelRef.ContainsKey(vox_pos_key)) {
                     Vector3 voxelMin = new Vector3(
                         vox_pos_key.x * voxelSize,
                         vox_pos_key.y * voxelSize,
@@ -295,11 +293,20 @@ public class RsPointCloudToMesh : MonoBehaviour
                     voxelRef.Remove(vox_pos_key);
                 }
             }
-            voxelCounts[vox_pos_key] -= voxelCounts[vox_pos_key] / 10;
+            voxelCounts[vox_pos_key] -= voxelCounts[vox_pos_key] / 3;
         }
     }
     private Vector3[] CreateNewBox(Vector3 max, Vector3 min)
     {
+        if (max.y < voxelSize && min.y > -voxelSize) { // align with floor
+            max.y = 0.0f;
+            min.y = -voxelSize;
+        } else {
+            // max = new Vector3(max.x - 0.04f, max.y - 0.04f, max.z - .04f);
+            // max = new Vector3(min.x - 0.04f, min.y - 0.04f, min.z - .04f);
+            max.y -= voxelSize*0.5f;
+            min.y -= voxelSize*0.5f;
+        }
         Vector3[] points = new Vector3[8];
         points[0] = min;
         points[1] = new Vector3(max.x, min.y, min.z);
@@ -324,10 +331,6 @@ public class RsPointCloudToMesh : MonoBehaviour
         MeshCollider boxCollider = newGameObj.AddComponent<MeshCollider>();
         // boxCollider.convex = false;
         boxCollider.convex = true;
-        // Calculate the desired rotation to face the negative X-axis
-        Quaternion desiredRotation = Quaternion.LookRotation(camera.transform.forward, camera.transform.up);
-        // Apply the rotation to the mesh object
-        // newGameObj.transform.rotation = desiredRotation;
         return newGameObj;
     }
     private void Initialize()

@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\HandPointer.cs" />
+    <Compile Include="Assets\HandPinchDetector.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\RealSenseSDK2.0\Shaders\BGSeg.shader" />
@@ -76,9 +77,14 @@
     <None Include="Assets\RealSenseSDK2.0\Shaders\RGB.shader" />
     <None Include="Assets\RealSenseSDK2.0\Shaders\PointCloudGeom.shader" />
     <None Include="Assets\RealSenseSDK2.0\Plugins\Intel.RealSense.dll" />
+    <None Include="Assets\UCLAGameLab\Wireframe\Shaders\UCLA GameLab Wireframe Functions.cginc" />
+    <None Include="Assets\UCLAGameLab\Wireframe\Shaders\UCLA GameLab Cutout Wireframe.shader" />
     <None Include="Assets\RealSenseSDK2.0\Shaders\Grayscale.shader" />
     <None Include="Assets\RealSenseSDK2.0\Shaders\PointCloud.shader" />
+    <None Include="Assets\UCLAGameLab\Wireframe\Shaders\UCLA GameLab Double-Sided Wireframe.shader" />
     <None Include="Assets\RealSenseSDK2.0\Shaders\BW.shader" />
+    <None Include="Assets\UCLAGameLab\Wireframe\Shaders\UCLA GameLab Double-Sided Cutout Wireframe.shader" />
+    <None Include="Assets\UCLAGameLab\Wireframe\Shaders\UCLA GameLab Wireframe.shader" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -981,8 +987,8 @@
       <HintPath>Library\ScriptAssemblies\UnityEditor.XR.LegacyInputHelpers.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
+    <Reference Include="Oculus.Interaction.Samples.Editor">
+      <HintPath>Library\ScriptAssemblies\Oculus.Interaction.Samples.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Meta.XR.Editor.StatusMenu">
@@ -995,6 +1001,10 @@
     </Reference>
     <Reference Include="Unity.VisualScripting.Flow.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.Flow.Editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.Timeline">
@@ -1053,6 +1063,14 @@
       <HintPath>Library\ScriptAssemblies\Oculus.Interaction.OVR.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="meta.xr.sdk.sharedassets.editor">
+      <HintPath>Library\ScriptAssemblies\meta.xr.sdk.sharedassets.editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Oculus.Interaction.OVR.Samples">
+      <HintPath>Library\ScriptAssemblies\Oculus.Interaction.OVR.Samples.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Unity.TextMeshPro">
       <HintPath>Library\ScriptAssemblies\Unity.TextMeshPro.dll</HintPath>
       <Private>False</Private>
@@ -1079,6 +1097,10 @@
     </Reference>
     <Reference Include="Meta.XR.GuidedSetups.Editor">
       <HintPath>Library\ScriptAssemblies\Meta.XR.GuidedSetups.Editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="xr.sdk.sharedassets.runtime">
+      <HintPath>Library\ScriptAssemblies\xr.sdk.sharedassets.runtime.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.XR.Oculus.Editor">
