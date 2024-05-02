@@ -77,14 +77,9 @@
     <None Include="Assets\RealSenseSDK2.0\Shaders\RGB.shader" />
     <None Include="Assets\RealSenseSDK2.0\Shaders\PointCloudGeom.shader" />
     <None Include="Assets\RealSenseSDK2.0\Plugins\Intel.RealSense.dll" />
-    <None Include="Assets\UCLAGameLab\Wireframe\Shaders\UCLA GameLab Wireframe Functions.cginc" />
-    <None Include="Assets\UCLAGameLab\Wireframe\Shaders\UCLA GameLab Cutout Wireframe.shader" />
     <None Include="Assets\RealSenseSDK2.0\Shaders\Grayscale.shader" />
     <None Include="Assets\RealSenseSDK2.0\Shaders\PointCloud.shader" />
-    <None Include="Assets\UCLAGameLab\Wireframe\Shaders\UCLA GameLab Double-Sided Wireframe.shader" />
     <None Include="Assets\RealSenseSDK2.0\Shaders\BW.shader" />
-    <None Include="Assets\UCLAGameLab\Wireframe\Shaders\UCLA GameLab Double-Sided Cutout Wireframe.shader" />
-    <None Include="Assets\UCLAGameLab\Wireframe\Shaders\UCLA GameLab Wireframe.shader" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
