@@ -242,9 +242,9 @@ public class RsPointCloudToMesh : MonoBehaviour
         Vector3 desiredPosition = camera.transform.position;
         foreach (var point in vertices)
         {
-            Vector3 p = new Vector3(point.x - (voxelSize), (point.y * -1f) - (voxelSize), point.z);
+            Vector3 p = new Vector3(point.x, (point.y * -1f), point.z);
             float distance = Vector3.Distance(p, Vector3.zero);
-            if (distance > 0.7 && distance < 3.3) {
+            if (distance > 0.7 && distance < 3) {
                 // Rotate the vector
                 Vector3 finalVector = (desiredRotation * p) + desiredPosition;
                 Vector3Int voxelPosition = new Vector3Int(
