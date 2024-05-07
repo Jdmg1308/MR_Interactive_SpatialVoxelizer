@@ -1,4 +1,3 @@
-﻿# XRSpatialVoxelizer
 # Interactable Mixed Reality Environment using a Depth Camera
 
 This project aims to recreate a mixed-reality environment where virtual objects can interact with the user's physical surroundings in real-time. It uses an Intel RealSense D435 depth camera and an Oculus Quest 2 headset to capture and integrate the real-world environment into the virtual experience.
@@ -37,3 +36,8 @@ The main script responsible for voxelation is located at `RealsenseSDK2.0/Script
 4. Put on the Oculus Quest 2 headset and enter the passthrough mode to experience the mixed reality environment.
 
 5. Interact with virtual objects and observe how they collide and interact with the physical environment!
+
+## Video demonstration
+
+https://www.youtube.com/watch?v=QbnuH11Asyw
+
